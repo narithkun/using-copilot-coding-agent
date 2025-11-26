@@ -5,6 +5,7 @@
   --primary-light: #66e066;
   --primary-dark: #228b22;
   --primary-text: #ffffff;
+  --primary-rgb: 50, 205, 50;
 
   /* Secondary colors */
   --secondary: #228b22;
@@ -682,9 +683,9 @@ footer {
   width: 3px;
   background: linear-gradient(180deg, 
     transparent 0%, 
-    rgba(50, 205, 50, 0.3) 20%, 
-    rgba(50, 205, 50, 0.5) 50%, 
-    rgba(50, 205, 50, 0.3) 80%, 
+    rgba(var(--primary-rgb), 0.3) 20%, 
+    rgba(var(--primary-rgb), 0.5) 50%, 
+    rgba(var(--primary-rgb), 0.3) 80%, 
     transparent 100%);
   animation: branchFlow linear infinite;
   border-radius: 2px;
@@ -695,12 +696,12 @@ footer {
   position: absolute;
   width: 8px;
   height: 8px;
-  background: rgba(50, 205, 50, 0.6);
+  background: rgba(var(--primary-rgb), 0.6);
   border-radius: 50%;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  box-shadow: 0 0 10px rgba(50, 205, 50, 0.4);
+  box-shadow: 0 0 10px rgba(var(--primary-rgb), 0.4);
 }
 
 .git-branch-line:nth-child(1) {
