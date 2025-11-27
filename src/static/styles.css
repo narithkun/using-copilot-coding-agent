@@ -924,7 +924,9 @@ footer {
   display: grid;
   grid-template-columns: 60px repeat(7, 1fr);
   position: relative;
-  min-height: 640px; /* 16 hours (6AM-10PM) * 40px per hour */
+  /* Height calculation: (CALENDAR_END_HOUR - CALENDAR_START_HOUR) * PIXELS_PER_HOUR
+     Must match JavaScript constants: (22 - 6) * 40 = 640px */
+  min-height: 640px;
 }
 
 .calendar-time-column {
@@ -933,6 +935,7 @@ footer {
 }
 
 .calendar-time-slot {
+  /* Height must match PIXELS_PER_HOUR in JavaScript (40px) */
   height: 40px;
   padding: 2px 5px;
   font-size: 0.7rem;
@@ -946,7 +949,9 @@ footer {
 .calendar-day-column {
   position: relative;
   border-right: 1px solid var(--border-light);
-  min-height: 640px; /* 16 hours (6AM-10PM) * 40px per hour */
+  /* Height calculation: (CALENDAR_END_HOUR - CALENDAR_START_HOUR) * PIXELS_PER_HOUR
+     Must match JavaScript constants: (22 - 6) * 40 = 640px */
+  min-height: 640px;
 }
 
 .calendar-day-column:last-child {

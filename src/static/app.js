@@ -534,6 +534,9 @@ document.addEventListener("DOMContentLoaded", () => {
   const CALENDAR_START_HOUR = 6; // 6 AM
   const CALENDAR_END_HOUR = 22; // 10 PM
   const PIXELS_PER_HOUR = 40;
+  const CALENDAR_MIN_ENTRY_HEIGHT = 20;
+  const TOOLTIP_WIDTH = 250;
+  const TOOLTIP_DEFAULT_HEIGHT = 150;
   const DAYS_OF_WEEK = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 
   // Initialize calendar time slots
@@ -667,7 +670,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const entry = document.createElement("div");
     entry.className = `calendar-activity type-${activity.type}`;
     entry.style.top = `${top}px`;
-    entry.style.height = `${Math.max(height - 2, 20)}px`; // Minimum height of 20px
+    entry.style.height = `${Math.max(height - 2, CALENDAR_MIN_ENTRY_HEIGHT)}px`;
     entry.style.width = `calc(${widthPercent}% - 4px)`;
     entry.style.left = `calc(${positionIndex * widthPercent}% + 2px)`;
 
@@ -743,8 +746,8 @@ document.addEventListener("DOMContentLoaded", () => {
   function positionTooltip(event) {
     if (!calendarTooltip) return;
 
-    const tooltipWidth = 250;
-    const tooltipHeight = calendarTooltip.offsetHeight || 150;
+    const tooltipWidth = TOOLTIP_WIDTH;
+    const tooltipHeight = calendarTooltip.offsetHeight || TOOLTIP_DEFAULT_HEIGHT;
     const padding = 15;
 
     let x = event.pageX + padding;
