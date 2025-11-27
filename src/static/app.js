@@ -52,7 +52,11 @@ document.addEventListener("DOMContentLoaded", () => {
   const categoryFilters = document.querySelectorAll(".category-filter");
   const dayFilters = document.querySelectorAll(".day-filter");
   const timeFilters = document.querySelectorAll(".time-filter");
+
+  const groupByFilters = document.querySelectorAll(".group-by-filter");
+
   const difficultyFilters = document.querySelectorAll(".difficulty-filter");
+
 
   // Authentication elements
   const loginButton = document.getElementById("login-button");
@@ -79,6 +83,7 @@ document.addEventListener("DOMContentLoaded", () => {
   let searchQuery = "";
   let currentDay = "";
   let currentTimeRange = "";
+  let currentGroupBy = "";
 
   let currentDifficulty = "";
 
@@ -114,10 +119,17 @@ document.addEventListener("DOMContentLoaded", () => {
       currentTimeRange = activeTimeFilter.dataset.time;
     }
 
+
+    // Initialize group by filter
+    const activeGroupByFilter = document.querySelector(".group-by-filter.active");
+    if (activeGroupByFilter) {
+      currentGroupBy = activeGroupByFilter.dataset.group;
+
     // Initialize difficulty filter
     const activeDifficultyFilter = document.querySelector(".difficulty-filter.active");
     if (activeDifficultyFilter) {
       currentDifficulty = activeDifficultyFilter.dataset.difficulty;
+
     }
   }
 
@@ -552,6 +564,124 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
+
+    // Group activities if groupBy is set
+    if (currentGroupBy === "category") {
+      displayGroupedByCategory(filteredActivities);
+    } else if (currentGroupBy === "day") {
+      displayGroupedByDay(filteredActivities);
+    } else {
+      // Display filtered activities without grouping
+      Object.entries(filteredActivities).forEach(([name, details]) => {
+        renderActivityCard(name, details);
+      });
+    }
+  }
+
+  // Function to display activities grouped by category
+  function displayGroupedByCategory(filteredActivities) {
+    // Group activities by category
+    const groupedActivities = {};
+    
+    Object.entries(filteredActivities).forEach(([name, details]) => {
+      const activityType = getActivityType(name, details.description);
+      if (!groupedActivities[activityType]) {
+        groupedActivities[activityType] = {};
+      }
+      groupedActivities[activityType][name] = details;
+    });
+
+    // Define category order
+    const categoryOrder = ["sports", "arts", "academic", "technology", "community"];
+    
+    // Sort categories by predefined order
+    const sortedCategories = Object.keys(groupedActivities).sort((a, b) => {
+      return categoryOrder.indexOf(a) - categoryOrder.indexOf(b);
+    });
+
+    // Display each group
+    sortedCategories.forEach((category) => {
+      const typeInfo = activityTypes[category];
+      
+      // Create group header
+      const groupHeader = document.createElement("div");
+      groupHeader.className = "group-header";
+      groupHeader.innerHTML = `
+        <span class="group-header-tag" style="background-color: ${typeInfo.color}; color: ${typeInfo.textColor}">
+          ${typeInfo.label}
+        </span>
+        <span class="group-count">${Object.keys(groupedActivities[category]).length} activities</span>
+      `;
+      activitiesList.appendChild(groupHeader);
+
+      // Create group container for cards
+      const groupContainer = document.createElement("div");
+      groupContainer.className = "group-container";
+      
+      Object.entries(groupedActivities[category]).forEach(([name, details]) => {
+        const card = createActivityCardElement(name, details);
+        groupContainer.appendChild(card);
+      });
+      
+      activitiesList.appendChild(groupContainer);
+    });
+  }
+
+  // Function to display activities grouped by day
+  function displayGroupedByDay(filteredActivities) {
+    // Group activities by day
+    const groupedActivities = {};
+    const dayOrder = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday", "Unscheduled"];
+    
+    Object.entries(filteredActivities).forEach(([name, details]) => {
+      if (details.schedule_details && details.schedule_details.days && details.schedule_details.days.length > 0) {
+        details.schedule_details.days.forEach((day) => {
+          if (!groupedActivities[day]) {
+            groupedActivities[day] = {};
+          }
+          groupedActivities[day][name] = details;
+        });
+      } else {
+        // Add activities without day information to "Unscheduled" group
+        if (!groupedActivities["Unscheduled"]) {
+          groupedActivities["Unscheduled"] = {};
+        }
+        groupedActivities["Unscheduled"][name] = details;
+      }
+    });
+
+    // Sort days by predefined order
+    const sortedDays = Object.keys(groupedActivities).sort((a, b) => {
+      return dayOrder.indexOf(a) - dayOrder.indexOf(b);
+    });
+
+    // Display each group
+    sortedDays.forEach((day) => {
+      // Create group header
+      const groupHeader = document.createElement("div");
+      groupHeader.className = "group-header day-group-header";
+      groupHeader.innerHTML = `
+        <span class="group-header-day">${day}</span>
+        <span class="group-count">${Object.keys(groupedActivities[day]).length} activities</span>
+      `;
+      activitiesList.appendChild(groupHeader);
+
+      // Create group container for cards
+      const groupContainer = document.createElement("div");
+      groupContainer.className = "group-container";
+      
+      Object.entries(groupedActivities[day]).forEach(([name, details]) => {
+        const card = createActivityCardElement(name, details);
+        groupContainer.appendChild(card);
+      });
+      
+      activitiesList.appendChild(groupContainer);
+    });
+  }
+
+  // Function to create activity card element (used by both grouped and ungrouped displays)
+  function createActivityCardElement(name, details) {
+
     // Display filtered activities based on current view
     if (currentView === "card") {
       Object.entries(filteredActivities).forEach(([name, details]) => {
@@ -957,6 +1087,12 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     }
 
+    return activityCard;
+  }
+
+  // Function to render a single activity card
+  function renderActivityCard(name, details) {
+    const activityCard = createActivityCardElement(name, details);
     activitiesList.appendChild(activityCard);
   }
 
@@ -1011,6 +1147,18 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
+
+  // Add event listeners for group by filter buttons
+  groupByFilters.forEach((button) => {
+    button.addEventListener("click", () => {
+      // Update active class
+      groupByFilters.forEach((btn) => btn.classList.remove("active"));
+      button.classList.add("active");
+
+      // Update current group by setting and display filtered activities
+      currentGroupBy = button.dataset.group;
+      displayFilteredActivities();
+
   // Add event listeners for difficulty filter buttons
   difficultyFilters.forEach((button) => {
     button.addEventListener("click", () => {
@@ -1021,6 +1169,7 @@ document.addEventListener("DOMContentLoaded", () => {
       // Update current difficulty filter and fetch activities
       currentDifficulty = button.dataset.difficulty;
       fetchActivities();
+
     });
   });
 
