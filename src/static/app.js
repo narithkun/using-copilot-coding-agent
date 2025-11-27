@@ -578,16 +578,22 @@ document.addEventListener("DOMContentLoaded", () => {
   function displayGroupedByDay(filteredActivities) {
     // Group activities by day
     const groupedActivities = {};
-    const dayOrder = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+    const dayOrder = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday", "Unscheduled"];
     
     Object.entries(filteredActivities).forEach(([name, details]) => {
-      if (details.schedule_details && details.schedule_details.days) {
+      if (details.schedule_details && details.schedule_details.days && details.schedule_details.days.length > 0) {
         details.schedule_details.days.forEach((day) => {
           if (!groupedActivities[day]) {
             groupedActivities[day] = {};
           }
           groupedActivities[day][name] = details;
         });
+      } else {
+        // Add activities without day information to "Unscheduled" group
+        if (!groupedActivities["Unscheduled"]) {
+          groupedActivities["Unscheduled"] = {};
+        }
+        groupedActivities["Unscheduled"][name] = details;
       }
     });
 
