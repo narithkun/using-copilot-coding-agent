@@ -847,3 +847,84 @@ footer {
   align-items: center;
   gap: 10px;
 }
+
+/* Group By Filters */
+.group-by-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.group-by-filter {
+  background-color: var(--background);
+  border: 1px solid var(--border);
+  color: var(--text-primary);
+  padding: 4px 10px;
+  border-radius: 15px;
+  font-size: 0.75rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.group-by-filter.active {
+  background-color: var(--primary);
+  color: white;
+  border-color: var(--primary-dark);
+}
+
+.group-by-filter:hover {
+  background-color: var(--primary-light);
+  color: white;
+}
+
+/* Group Header Styles */
+.group-header {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 15px;
+  background: linear-gradient(90deg, var(--border-light) 0%, transparent 100%);
+  border-radius: 8px;
+  margin: 10px 0 5px 0;
+  border-left: 4px solid var(--primary);
+}
+
+.group-header:first-child {
+  margin-top: 0;
+}
+
+.group-header-tag {
+  font-size: 0.8rem;
+  font-weight: bold;
+  padding: 4px 12px;
+  border-radius: 15px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.group-header-day {
+  font-size: 1rem;
+  font-weight: bold;
+  color: var(--primary);
+}
+
+.day-group-header {
+  border-left-color: var(--secondary);
+}
+
+.group-count {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  margin-left: auto;
+}
+
+/* Group Container for Cards */
+.group-container {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 15px;
+  width: 100%;
+  margin-bottom: 15px;
+}
