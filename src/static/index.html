@@ -120,6 +120,7 @@
               </div>
             </div>
 
+
             <!-- Group By Option -->
             <div class="filter-container group-by-container">
               <div class="filter-label">Group by:</div>
@@ -132,6 +133,26 @@
                 </button>
                 <button class="group-by-filter" data-group="day">
                   Day
+
+            <!-- Difficulty Filter -->
+            <div class="filter-container difficulty-filter-container">
+              <div class="filter-label">Filter by difficulty:</div>
+              <div class="difficulty-filters" id="difficulty-filters">
+                <button class="difficulty-filter active" data-difficulty="">
+                  All Levels
+                </button>
+                <button class="difficulty-filter" data-difficulty="Beginner">
+                  Beginner
+                </button>
+                <button class="difficulty-filter" data-difficulty="Intermediate">
+                  Intermediate
+                </button>
+                <button class="difficulty-filter" data-difficulty="Advanced">
+                  Advanced
+                </button>
+                <button class="difficulty-filter" data-difficulty="unspecified">
+                  Unspecified
+
                 </button>
               </div>
             </div>
@@ -139,10 +160,51 @@
 
           <!-- Activities Content -->
           <div class="activities-content">
+            <!-- View Toggle -->
+            <div class="view-toggle-container">
+              <button class="view-toggle-btn active" data-view="card" aria-label="Card View">
+                <span class="view-icon">▦</span>
+                <span class="view-label">Cards</span>
+              </button>
+              <button class="view-toggle-btn" data-view="calendar" aria-label="Calendar View">
+                <span class="view-icon">📅</span>
+                <span class="view-label">Calendar</span>
+              </button>
+            </div>
+
             <div id="activities-list">
               <!-- Activities will be loaded here -->
               <p>Loading activities...</p>
             </div>
+
+            <!-- Calendar View Container -->
+            <div id="calendar-view" class="hidden">
+              <div class="calendar-container">
+                <div class="calendar-header">
+                  <div class="calendar-time-header"></div>
+                  <div class="calendar-day-header">Sunday</div>
+                  <div class="calendar-day-header">Monday</div>
+                  <div class="calendar-day-header">Tuesday</div>
+                  <div class="calendar-day-header">Wednesday</div>
+                  <div class="calendar-day-header">Thursday</div>
+                  <div class="calendar-day-header">Friday</div>
+                  <div class="calendar-day-header">Saturday</div>
+                </div>
+                <div class="calendar-body">
+                  <div class="calendar-time-column" id="calendar-time-column">
+                    <!-- Time slots will be generated here -->
+                  </div>
+                  <div class="calendar-day-column" data-day="Sunday"></div>
+                  <div class="calendar-day-column" data-day="Monday"></div>
+                  <div class="calendar-day-column" data-day="Tuesday"></div>
+                  <div class="calendar-day-column" data-day="Wednesday"></div>
+                  <div class="calendar-day-column" data-day="Thursday"></div>
+                  <div class="calendar-day-column" data-day="Friday"></div>
+                  <div class="calendar-day-column" data-day="Saturday"></div>
+                </div>
+              </div>
+            </div>
+
             <div id="message" class="hidden message"></div>
           </div>
         </div>
