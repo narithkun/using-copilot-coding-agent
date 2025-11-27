@@ -33,6 +33,37 @@
   --info-light: #d1ecf1;
 }
 
+/* Dark mode colors */
+[data-theme="dark"] {
+  --primary: #4ade4a;
+  --primary-light: #6ee76e;
+  --primary-dark: #32cd32;
+  --primary-text: #ffffff;
+  --primary-rgb: 74, 222, 74;
+
+  --secondary: #32cd32;
+  --secondary-light: #4ade4a;
+  --secondary-dark: #228b22;
+  --secondary-text: #ffffff;
+
+  --background: #1a1a2e;
+  --surface: #16213e;
+  --text-primary: #e8e8e8;
+  --text-secondary: #b0b0b0;
+  --border: #2d4a2d;
+  --border-light: #243824;
+  --border-focus: #3d6a3d;
+
+  --success: #4caf50;
+  --success-light: #1b3d1b;
+  --warning: #ffb74d;
+  --warning-light: #3d3015;
+  --error: #ef5350;
+  --error-light: #3d1515;
+  --info: #4fc3f7;
+  --info-light: #153540;
+}
+
 * {
   box-sizing: border-box;
   margin: 0;
@@ -785,4 +816,34 @@ footer {
 .mascot:hover {
   transform: scale(1.1);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+/* Dark mode toggle button */
+.theme-toggle {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  background-color: rgba(255, 255, 255, 0.2);
+  border-radius: 20px;
+  padding: 4px 12px;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  border: none;
+  color: white;
+}
+
+.theme-toggle:hover {
+  background-color: rgba(255, 255, 255, 0.3);
+}
+
+.theme-toggle .theme-icon {
+  font-size: 1rem;
+}
+
+/* Update user controls to include theme toggle */
+#user-controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
